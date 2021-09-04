@@ -13,13 +13,13 @@ import io.ktor.request.*
 fun Application.configureSecurity() {
     authentication {
             jwt {
-                val jwtAudience = "http://127.0.0.1:8080/hello"
+                val jwtAudience = "https://first-kotlin.herokuapp.com:8080/hello"
                 realm = "Access to 'hello'"
                 verifier(
                     JWT
                         .require(Algorithm.HMAC256("secret"))
                         .withAudience(jwtAudience)
-                        .withIssuer("http://127.0.0.1:8080/")
+                        .withIssuer("https://first-kotlin.herokuapp.com:8080/")
                         .build()
                 )
                 validate { credential ->

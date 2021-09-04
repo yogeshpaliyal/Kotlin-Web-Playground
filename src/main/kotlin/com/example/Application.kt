@@ -11,7 +11,7 @@ import io.ktor.http.*
 import io.ktor.response.*
 
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
+    embeddedServer(Netty, port = 8080, host = "first-kotlin.herokuapp.com") {
         install(StatusPages){
             exception<Throwable>{ cause ->
                 call.respond(HttpStatusCode.InternalServerError,Resource.error<Unit>("Message ${cause.localizedMessage}"))
