@@ -17,6 +17,11 @@ repositories {
     mavenCentral()
 }
 
+tasks.register("stage"){
+    dependsOn("installDist")
+}
+
+
 dependencies {
     implementation("io.ktor:ktor-auth-jwt:$ktor_version")
     implementation("io.ktor:ktor-auth:$ktor_version")
@@ -28,4 +33,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
+
+   // implementation("org.jetbrains.exposed:exposed:0.12.1")
+    implementation("com.h2database:h2:1.4.191")
 }
