@@ -11,7 +11,7 @@ import io.ktor.http.*
 import io.ktor.response.*
 
 fun main() {
-    embeddedServer(Netty, port = System.getenv("PORT").toInt()) {
+    embeddedServer(Netty, port = 8080) {
         install(StatusPages){
             exception<Throwable>{ cause ->
                 call.respond(HttpStatusCode.InternalServerError,Resource.error<Unit>("Message ${cause.localizedMessage}"))
