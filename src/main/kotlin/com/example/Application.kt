@@ -23,7 +23,7 @@ fun main() {
                 setLenient()
             }
         }
-        configureSecurity()
+        //configureSecurity()
         configureRouting()
     }.start(wait = true)
 }
