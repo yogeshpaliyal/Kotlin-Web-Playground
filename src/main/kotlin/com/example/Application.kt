@@ -26,6 +26,8 @@ fun Application.module(testing: Boolean = false) {
             setLenient()
         }
     }
+
+
     //configureSecurity()
     configureRouting()
 }
