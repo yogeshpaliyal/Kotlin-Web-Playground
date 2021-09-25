@@ -1,9 +1,11 @@
 package com.example.plugins
 
 import com.auth0.jwt.JWT
+import com.auth0.jwt.JWTVerifier
 import com.example.auth.JwtConfig
 import com.example.model.Resource
 import com.example.model.User
+import com.example.routes.*
 import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.application.*
@@ -13,17 +15,21 @@ import io.ktor.request.*
 fun Application.configureRouting() {
 
     routing {
-        get("/") {
-                call.respondText("Hello World !")
-            }
 
-        get("/login"){
-            if (call.request.queryParameters.contains("name").not()){
-                call.respondText("Please enter name")
-                return@get
+        intercept(ApplicationCallPipeline.Setup){
+            print(call.request.path())
+            if (!NON_AUTH_APIS.contains(call.request.path())){
+                // Authenticate the API
+                val token = call.request.headers.get("token")
+                if(token.isNullOrEmpty()){
+                    call.respond(Resource.error<Unit>("Invalid token"))
+                    return@intercept finish() // this line with return the intercept and not call the actual api
+                }
             }
-            val name = call.request.queryParameters.get("name") ?: ""
-            call.respond(Resource.success(hashMapOf("token" to JwtConfig.makeToken(User("1",name)), "user" to User("1",name))))
         }
+
+        generalApis()
+        authApis()
+        usersApis()
     }
 }
