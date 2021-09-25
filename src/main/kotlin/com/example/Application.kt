@@ -10,20 +10,22 @@ import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.response.*
 
-fun main() {
-    embeddedServer(Netty, port = 8080) {
-        install(StatusPages){
-            exception<Throwable>{ cause ->
-                call.respond(HttpStatusCode.InternalServerError,Resource.error<Unit>("Message ${cause.localizedMessage}"))
-            }
+
+
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+
+fun Application.module(testing: Boolean = false) {
+    install(StatusPages){
+        exception<Throwable>{ cause ->
+            call.respond(HttpStatusCode.InternalServerError,Resource.error<Unit>("Message ${cause.localizedMessage}"))
         }
-        install(ContentNegotiation) {
-            gson {
-                setPrettyPrinting()
-                setLenient()
-            }
+    }
+    install(ContentNegotiation) {
+        gson {
+            setPrettyPrinting()
+            setLenient()
         }
-        //configureSecurity()
-        configureRouting()
-    }.start(wait = true)
+    }
+    //configureSecurity()
+    configureRouting()
 }
